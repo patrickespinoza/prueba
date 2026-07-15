@@ -1,7 +1,7 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 /* =====================================================
    ANIMACIÓN GENERAL
@@ -18,79 +18,68 @@ const fadeUp = {
     y: 0,
 
     transition: {
-      duration: 1,
+      duration: 1.1,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 /* =====================================================
-   INFORMACIÓN DE REGALOS
+   INFORMACIÓN DEL ÁLBUM
 ===================================================== */
 
-const DATOS_REGALOS = {
-  numeroEvento: "12345678",
-  imagenRegalo: "/regalo1.png",
-
-  mensaje:
-    "Tu presencia será mi mejor regalo, pero si deseas tener un detalle conmigo, he preparado una mesa de regalos en Liverpool.",
-
-  mensajeLiverpool:
-    "He seleccionado algunas opciones que me encantaría recibir. Puedes consultar la mesa de regalos utilizando el número de evento o el botón inferior.",
+const DATOS_ALBUM = {
+  nombreAplicacion: "Wedshoots",
+  codigo: "MXat19tb26",
+  enlaceAplicacion:
+    "https://apps.apple.com/mx/app/wedshoots/id660256196",
+  imagenQr: "/qr.png",
 };
 
 /* =====================================================
    COMPONENTE PRINCIPAL
 ===================================================== */
 
-const Regalos = () => {
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [numeroCopiado, setNumeroCopiado] = useState(false);
-
-  const linkLiverpool = `https://www.liverpool.com.mx/tienda/giftregistry/giftRegistryDetail.jsp?eventNo=${DATOS_REGALOS.numeroEvento}`;
+export default function AlbumCompartido() {
+  const [open, setOpen] = useState(false);
+  const [copiado, setCopiado] = useState(false);
 
   /* =====================================================
-     BLOQUEAR SCROLL Y CERRAR CON ESCAPE
+     CERRAR MODAL CON ESCAPE
   ===================================================== */
 
   useEffect(() => {
     const cerrarConEscape = (event) => {
       if (event.key === "Escape") {
-        setMostrarModal(false);
+        setOpen(false);
       }
     };
 
-    if (mostrarModal) {
-      document.body.style.overflow = "hidden";
+    if (open) {
       document.addEventListener("keydown", cerrarConEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.body.style.overflow = "";
       document.removeEventListener("keydown", cerrarConEscape);
+      document.body.style.overflow = "";
     };
-  }, [mostrarModal]);
+  }, [open]);
 
   /* =====================================================
-     COPIAR NÚMERO DE EVENTO
+     COPIAR CÓDIGO
   ===================================================== */
 
-  const copiarNumeroEvento = async () => {
+  const copiarCodigo = async () => {
     try {
-      await navigator.clipboard.writeText(
-        DATOS_REGALOS.numeroEvento
-      );
+      await navigator.clipboard.writeText(DATOS_ALBUM.codigo);
+      setCopiado(true);
 
-      setNumeroCopiado(true);
-
-      window.setTimeout(() => {
-        setNumeroCopiado(false);
+      setTimeout(() => {
+        setCopiado(false);
       }, 2200);
     } catch (error) {
-      console.error(
-        "No se pudo copiar el número de evento:",
-        error
-      );
+      console.error("No se pudo copiar el código:", error);
     }
   };
 
@@ -106,7 +95,7 @@ const Regalos = () => {
         whileInView="show"
         viewport={{
           once: true,
-          amount: 0.12,
+          amount: 0.15,
         }}
         className="
           relative
@@ -123,7 +112,7 @@ const Regalos = () => {
             radial-gradient(
               circle at top left,
               rgba(122,24,56,0.11),
-              transparent 27%
+              transparent 26%
             ),
             radial-gradient(
               circle at bottom right,
@@ -153,7 +142,7 @@ const Regalos = () => {
             sm:h-[500px] sm:w-[500px]
           "
           animate={{
-            scale: [1, 1.15, 1],
+            scale: [1, 1.14, 1],
             opacity: [0.12, 0.25, 0.12],
           }}
           transition={{
@@ -215,13 +204,13 @@ const Regalos = () => {
           aria-hidden="true"
           className="
             pointer-events-none
-            absolute left-[9%] top-[18%]
+            absolute left-[9%] top-[20%]
             text-lg text-[#D5B76A]/65
           "
           animate={{
             opacity: [0.25, 1, 0.25],
             scale: [0.8, 1.2, 0.8],
-            rotate: [0, 35, 0],
+            rotate: [0, 30, 0],
           }}
           transition={{
             duration: 4,
@@ -236,7 +225,7 @@ const Regalos = () => {
           aria-hidden="true"
           className="
             pointer-events-none
-            absolute right-[9%] top-[40%]
+            absolute right-[10%] top-[35%]
             text-sm text-[#7A1838]/45
           "
           animate={{
@@ -293,7 +282,7 @@ const Regalos = () => {
             "
           />
 
-          {/* BRILLO */}
+          {/* BRILLO ANIMADO */}
 
           <motion.div
             aria-hidden="true"
@@ -318,7 +307,7 @@ const Regalos = () => {
             }}
           />
 
-          {/* BORDE INTERIOR */}
+          {/* BORDE INTERNO */}
 
           <div
             aria-hidden="true"
@@ -372,7 +361,7 @@ const Regalos = () => {
                   ease: "easeInOut",
                 }}
               >
-                Un detalle especial
+                Comparte tus recuerdos
               </motion.p>
 
               <div
@@ -390,13 +379,15 @@ const Regalos = () => {
             <motion.div
               className="
                 mx-auto mt-7
-                flex h-20 w-20
+                flex h-16 w-16
                 items-center justify-center
                 rounded-full
                 border border-[#D5B76A]/35
-                bg-white/70
-                shadow-[0_14px_35px_rgba(84,17,42,0.10)]
-                sm:h-24 sm:w-24
+                bg-white/65
+                text-3xl
+                shadow-[0_12px_30px_rgba(84,17,42,0.10)]
+                sm:h-20 sm:w-20
+                sm:text-4xl
               "
               animate={{
                 y: [0, -4, 0],
@@ -408,15 +399,7 @@ const Regalos = () => {
                 ease: "easeInOut",
               }}
             >
-              <img
-                src={DATOS_REGALOS.imagenRegalo}
-                alt="Regalo para los XV años de Carla"
-                className="
-                  h-14 w-14
-                  object-contain
-                  sm:h-16 sm:w-16
-                "
-              />
+              📸
             </motion.div>
 
             {/* TÍTULO */}
@@ -438,10 +421,10 @@ const Regalos = () => {
               className="
                 mt-7
                 font-cursiveDancing
-                text-[50px]
+                text-[46px]
                 leading-[0.95]
-                sm:text-[66px]
-                md:text-[80px]
+                sm:text-[62px]
+                md:text-[76px]
               "
               style={{
                 background: `
@@ -458,7 +441,7 @@ const Regalos = () => {
                   "drop-shadow(0 8px 18px rgba(122,24,56,0.13))",
               }}
             >
-              Regalos
+              Álbum compartido
             </motion.h2>
 
             {/* ORNAMENTO */}
@@ -526,7 +509,7 @@ const Regalos = () => {
               />
             </motion.div>
 
-            {/* MENSAJE */}
+            {/* DESCRIPCIÓN */}
 
             <motion.p
               initial={{
@@ -553,8 +536,12 @@ const Regalos = () => {
                 md:text-[18px]
               "
             >
-              {DATOS_REGALOS.mensaje}
+              Ayúdame a guardar cada momento especial de mis XV años.
+              Sube tus fotografías y comparte conmigo los recuerdos de
+              esta noche inolvidable.
             </motion.p>
+
+            {/* FRASE */}
 
             <motion.p
               initial={{
@@ -572,26 +559,26 @@ const Regalos = () => {
                 mx-auto mt-4
                 max-w-lg
                 font-cursiveDancing
-                text-[25px]
+                text-[24px]
                 leading-relaxed
                 text-[#7A1838]
-                sm:text-[30px]
+                sm:text-[29px]
               "
             >
-              Gracias por formar parte de este momento
+              Cada fotografía será parte de mi historia
             </motion.p>
 
             {/* BOTÓN */}
 
             <motion.button
               type="button"
-              onClick={() => setMostrarModal(true)}
+              onClick={() => setOpen(true)}
               className="
                 relative
                 mt-9
                 inline-flex
                 min-h-[50px]
-                w-full max-w-[300px]
+                w-full max-w-[280px]
                 items-center
                 justify-center
                 overflow-hidden
@@ -651,16 +638,19 @@ const Regalos = () => {
                   text-[10px]
                   font-semibold
                   uppercase
-                  tracking-[0.2em]
+                  tracking-[0.22em]
                   sm:text-[11px]
-                  sm:tracking-[0.28em]
+                  sm:tracking-[0.3em]
                 "
               >
-                Ver mesa de regalos
+                Abrir álbum
               </span>
 
-              <span className="relative z-10 ml-2">
-                🎁
+              <span
+                aria-hidden="true"
+                className="relative z-10 ml-2 text-base"
+              >
+                📸
               </span>
             </motion.button>
           </div>
@@ -668,15 +658,15 @@ const Regalos = () => {
       </motion.section>
 
       {/* =================================================
-          MODAL DE LIVERPOOL
+          MODAL
       ================================================= */}
 
       <AnimatePresence>
-        {mostrarModal && (
+        {open && (
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-labelledby="titulo-mesa-regalos"
+            aria-labelledby="titulo-album"
             className="
               fixed inset-0 z-[100]
               flex items-center
@@ -698,7 +688,7 @@ const Regalos = () => {
             }}
             onMouseDown={(event) => {
               if (event.target === event.currentTarget) {
-                setMostrarModal(false);
+                setOpen(false);
               }
             }}
           >
@@ -728,40 +718,37 @@ const Regalos = () => {
                 w-full max-w-md
                 overflow-hidden
                 rounded-[28px]
-                border border-white/20
-                px-5 py-10
+                border border-white/60
+                bg-[#fffafa]
+                px-5 py-9
                 text-center
-                text-white
-                shadow-[0_28px_90px_rgba(0,0,0,0.42)]
+                shadow-[0_28px_90px_rgba(0,0,0,0.38)]
                 sm:rounded-[36px]
-                sm:px-8 sm:py-12
+                sm:px-8 sm:py-11
               "
-              style={{
-                background: `
-                  radial-gradient(
-                    circle at top right,
-                    rgba(255,255,255,0.13),
-                    transparent 28%
-                  ),
-                  linear-gradient(
-                    145deg,
-                    #8D2447 0%,
-                    #64142F 48%,
-                    #350817 100%
-                  )
-                `,
-              }}
             >
-              {/* GLOW */}
+              {/* GLOW INTERIOR */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  pointer-events-none
+                  absolute inset-0
+                  bg-gradient-to-br
+                  from-white
+                  via-transparent
+                  to-[#7A1838]/10
+                "
+              />
 
               <div
                 aria-hidden="true"
                 className="
                   pointer-events-none
                   absolute -right-20 -top-20
-                  h-60 w-60
+                  h-56 w-56
                   rounded-full
-                  bg-[#D5B76A]/20
+                  bg-[#D5B76A]/17
                   blur-3xl
                 "
               />
@@ -771,56 +758,32 @@ const Regalos = () => {
                 className="
                   pointer-events-none
                   absolute -bottom-24 -left-20
-                  h-60 w-60
+                  h-56 w-56
                   rounded-full
-                  bg-white/10
+                  bg-[#7A1838]/10
                   blur-3xl
                 "
-              />
-
-              {/* BRILLO ANIMADO */}
-
-              <motion.div
-                aria-hidden="true"
-                className="
-                  pointer-events-none
-                  absolute top-0
-                  h-full w-32
-                  -skew-x-12
-                  bg-gradient-to-r
-                  from-transparent
-                  via-white/20
-                  to-transparent
-                "
-                animate={{
-                  left: ["-45%", "140%"],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  repeatDelay: 1.5,
-                  ease: "easeInOut",
-                }}
               />
 
               {/* CERRAR */}
 
               <motion.button
                 type="button"
-                onClick={() => setMostrarModal(false)}
-                aria-label="Cerrar mesa de regalos"
+                onClick={() => setOpen(false)}
+                aria-label="Cerrar álbum compartido"
                 className="
                   absolute right-4 top-4 z-20
                   flex h-10 w-10
                   items-center justify-center
                   rounded-full
-                  border border-white/15
-                  bg-white/10
-                  text-lg text-white/80
+                  border border-[#7A1838]/10
+                  bg-white/75
+                  text-lg text-[#7A1838]
+                  shadow-sm
                   backdrop-blur-md
                   transition-colors
-                  hover:bg-white
-                  hover:text-[#7A1838]
+                  hover:bg-[#7A1838]
+                  hover:text-white
                   sm:right-5 sm:top-5
                 "
                 whileHover={{
@@ -834,9 +797,9 @@ const Regalos = () => {
                 ✕
               </motion.button>
 
-              {/* CONTENIDO */}
-
               <div className="relative z-10">
+                {/* ÍCONO */}
+
                 <motion.div
                   className="
                     mx-auto
@@ -844,10 +807,9 @@ const Regalos = () => {
                     items-center justify-center
                     rounded-full
                     border border-[#D5B76A]/35
-                    bg-white/10
+                    bg-white
                     text-3xl
-                    shadow-[0_12px_30px_rgba(0,0,0,0.15)]
-                    backdrop-blur-lg
+                    shadow-[0_12px_30px_rgba(84,17,42,0.10)]
                   "
                   animate={{
                     y: [0, -3, 0],
@@ -858,37 +820,26 @@ const Regalos = () => {
                     ease: "easeInOut",
                   }}
                 >
-                  🎁
+                  📸
                 </motion.div>
 
-                <p
-                  className="
-                    mt-6
-                    text-[9px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.28em]
-                    text-[#EBD69D]
-                    sm:text-[10px]
-                    sm:tracking-[0.4em]
-                  "
-                >
-                  Mesa de regalos
-                </p>
+                {/* TÍTULO */}
 
                 <h2
-                  id="titulo-mesa-regalos"
+                  id="titulo-album"
                   className="
-                    mt-3
-                    font-playfair
-                    text-[32px]
-                    leading-tight
-                    text-white
-                    sm:text-[40px]
+                    mt-5
+                    font-cursiveDancing
+                    text-[40px]
+                    leading-none
+                    text-[#7A1838]
+                    sm:text-[48px]
                   "
                 >
-                  Liverpool
+                  Mis recuerdos
                 </h2>
+
+                {/* LÍNEA */}
 
                 <div
                   className="
@@ -901,156 +852,177 @@ const Regalos = () => {
                   "
                 />
 
-                <p
-                  className="
-                    text-[10px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.24em]
-                    text-white/60
-                  "
-                >
-                  Número de evento
-                </p>
-
-                {/* NÚMERO DE EVENTO */}
-
-                <button
-                  type="button"
-                  onClick={copiarNumeroEvento}
-                  className="
-                    group
-                    mt-4 w-full
-                    rounded-2xl
-                    border border-white/15
-                    bg-white/10
-                    px-4 py-5
-                    shadow-inner
-                    backdrop-blur-lg
-                    transition
-                    hover:bg-white/15
-                  "
-                >
-                  <span
-                    className="
-                      block
-                      break-all
-                      font-mono
-                      text-[25px]
-                      font-semibold
-                      tracking-[0.15em]
-                      text-[#F3D995]
-                      sm:text-[30px]
-                      sm:tracking-[0.22em]
-                    "
-                  >
-                    {DATOS_REGALOS.numeroEvento}
-                  </span>
-
-                  <span
-                    className="
-                      mt-2 block
-                      text-[9px]
-                      uppercase
-                      tracking-[0.17em]
-                      text-white/55
-                    "
-                  >
-                    {numeroCopiado
-                      ? "Número copiado"
-                      : "Toca para copiar"}
-                  </span>
-                </button>
-
-                {/* DESCRIPCIÓN */}
+                {/* APLICACIÓN */}
 
                 <p
                   className="
-                    mx-auto mt-6
-                    max-w-sm
-                    text-[13px]
+                    text-sm
                     leading-relaxed
-                    text-white/72
-                    sm:text-sm
+                    text-[#80616C]
                   "
                 >
-                  {DATOS_REGALOS.mensajeLiverpool}
+                  Descarga la aplicación
                 </p>
 
-                {/* BOTÓN LIVERPOOL */}
+                <p
+                  className="
+                    mt-1
+                    font-playfair
+                    text-[23px]
+                    font-semibold
+                    text-[#511329]
+                  "
+                >
+                  {DATOS_ALBUM.nombreAplicacion}
+                </p>
+
+                {/* DESCARGAR */}
 
                 <motion.a
-                  href={linkLiverpool}
+                  href={DATOS_ALBUM.enlaceAplicacion}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="
-                    relative
-                    mt-8
+                    mt-5
                     inline-flex
-                    min-h-[48px]
-                    w-full
+                    min-h-[44px]
                     items-center
                     justify-center
-                    overflow-hidden
                     rounded-full
-                    bg-white
-                    px-6 py-3.5
-                    text-[#64142F]
-                    shadow-[0_14px_32px_rgba(0,0,0,0.18)]
+                    border border-[#7A1838]
+                    px-6 py-3
+                    text-[10px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.2em]
+                    text-[#7A1838]
+                    transition-colors
+                    hover:bg-[#7A1838]
+                    hover:text-white
                   "
                   whileHover={{
                     scale: 1.04,
-                    y: -2,
+                    y: -1,
                   }}
                   whileTap={{
                     scale: 0.97,
                   }}
                 >
-                  <motion.span
-                    aria-hidden="true"
-                    className="
-                      absolute top-0
-                      h-full w-[80%]
-                      -skew-x-12
-                      bg-[#D5B76A]/20
-                    "
-                    animate={{
-                      left: ["-120%", "150%"],
-                    }}
-                    transition={{
-                      duration: 3.2,
-                      repeat: Infinity,
-                      repeatDelay: 1.4,
-                      ease: "easeInOut",
-                    }}
-                  />
+                  Descargar aplicación
+                </motion.a>
 
-                  <span
+                {/* CÓDIGO */}
+
+                <div className="mt-7">
+                  <p
                     className="
-                      relative z-10
                       text-[10px]
                       font-semibold
                       uppercase
-                      tracking-[0.2em]
-                      sm:text-[11px]
-                      sm:tracking-[0.28em]
+                      tracking-[0.24em]
+                      text-[#9A7884]
                     "
                   >
-                    Ir a Liverpool
-                  </span>
-                </motion.a>
+                    Código del álbum
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={copiarCodigo}
+                    className="
+                      group relative
+                      mt-3 w-full
+                      overflow-hidden
+                      rounded-2xl
+                      border border-[#D5B76A]/25
+                      bg-white/75
+                      px-4 py-4
+                      shadow-inner
+                      transition
+                      hover:border-[#7A1838]/25
+                    "
+                  >
+                    <span
+                      className="
+                        block
+                        break-all
+                        font-mono
+                        text-[17px]
+                        font-semibold
+                        tracking-[0.18em]
+                        text-[#7A1838]
+                        sm:text-lg
+                        sm:tracking-[0.28em]
+                      "
+                    >
+                      {DATOS_ALBUM.codigo}
+                    </span>
+
+                    <span
+                      className="
+                        mt-2 block
+                        text-[9px]
+                        uppercase
+                        tracking-[0.18em]
+                        text-[#9A7884]
+                      "
+                    >
+                      {copiado
+                        ? "Código copiado"
+                        : "Toca para copiar"}
+                    </span>
+                  </button>
+                </div>
+
+                {/* QR */}
+
+                <div className="mt-7 flex justify-center">
+                  <div
+                    className="
+                      rounded-[22px]
+                      border border-[#D5B76A]/25
+                      bg-white
+                      p-3
+                      shadow-[0_14px_35px_rgba(84,17,42,0.12)]
+                    "
+                  >
+                    <img
+                      src={DATOS_ALBUM.imagenQr}
+                      alt="Código QR para acceder al álbum compartido"
+                      className="
+                        h-40 w-40
+                        rounded-xl
+                        object-contain
+                        sm:h-44 sm:w-44
+                      "
+                    />
+                  </div>
+                </div>
+
+                {/* MENSAJE */}
 
                 <p
                   className="
-                    mt-6
-                    font-cursiveDancing
-                    text-[24px]
+                    mx-auto mt-6
+                    max-w-xs
+                    text-xs
                     leading-relaxed
-                    text-[#F1D89A]
-                    sm:text-[28px]
+                    text-[#9A7884]
                   "
                 >
-                  Gracias por tu cariño y por acompañarme
+                  Escanea el código QR o utiliza el código del álbum
+                  para subir las fotografías de mis XV años.
+                </p>
+
+                <p
+                  className="
+                    mt-4
+                    font-cursiveDancing
+                    text-[23px]
+                    text-[#7A1838]
+                  "
+                >
+                  Gracias por compartir este recuerdo conmigo
                 </p>
               </div>
             </motion.div>
@@ -1059,6 +1031,4 @@ const Regalos = () => {
       </AnimatePresence>
     </>
   );
-};
-
-export default Regalos;
+}
