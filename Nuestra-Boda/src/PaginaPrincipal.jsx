@@ -8,9 +8,9 @@ import Confirmacion from "./componentes-encabezado/Confirmacion";
 import FrasePremium from "./componentes-encabezado/FrasePrincipal";
 import EventoDireccion from "./componentes-encabezado/Ubicacion";
 import DressCodePremium from "./componentes-encabezado/codigovestimenta";
-import Novios from "./componentes-encabezado/novios";
-import Momentos from "./componentes-encabezado/galeria";
+import LineaDelTiempo from "./componentes-encabezado/lineaTiempo";
 import AlbumCompartido from "./componentes-encabezado/album";
+import FrasePersonalizada from "./componentes-encabezado/FrasePer";
 
 
 export default function PaginaPrincipal() {
@@ -48,11 +48,11 @@ export default function PaginaPrincipal() {
   return (
     <div >
 
-<Novios/>
+<FrasePersonalizada/>
 
 <EventoDireccion/>
 
- <Momentos/>
+ <LineaDelTiempo/>
 
 <Itinerario />
  

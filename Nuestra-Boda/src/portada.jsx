@@ -1177,32 +1177,7 @@ export default function Portada() {
             {DATOS_XV.nombre}
           </h1>
 
-          {/* FECHA */}
 
-          <p
-            className="
-              mt-6
-              text-[11px] uppercase
-              tracking-[0.24em]
-              text-[#f6e8dc]
-              sm:mt-8 sm:text-[14px] sm:tracking-[0.4em]
-            "
-          >
-            Sábado 13 de marzo de 2027
-          </p>
-
-          <p
-            className="
-              mt-2
-              font-serif
-              text-[15px]
-              italic
-              text-[#eed7df]
-              sm:text-[18px]
-            "
-          >
-            5:00 de la tarde
-          </p>
 
           {/* DIVISOR */}
 
@@ -1232,18 +1207,7 @@ export default function Portada() {
 
             <Countdown targetDate={DATOS_XV.fechaCuentaRegresiva} />
 
-            <p
-              className="
-                mt-3
-                font-serif
-                text-[13px]
-                italic
-                text-[#f5e6e9]
-                sm:text-[16px]
-              "
-            >
-              para celebrar una noche inolvidable
-            </p>
+
           </div>
         </motion.div>
       </section>
