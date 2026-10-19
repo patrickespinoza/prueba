@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Countdown from "./componentes-encabezado/encabeza-cuenta";
-import GlitterIntro from "./componentes-encabezado/gliter";
+import Countdown from "./encabeza-cuenta";
+import GlitterIntro from "./gliter";
 
 /* =====================================================
    CONFIGURACIÓN GENERAL DEL DEMO
